@@ -72,8 +72,8 @@ fflush(stdin);
 gets(client[counterTwo].fullName);
 buyMenu();
 do{
-printf("¿Desea retirar el pedido en la sucursal o recibir el pedido por envio?\nEl costo de envio es de $500\n1.Retiro en sucursal\n2.Envio");
-scanf("%d", &shipment);
+	printf("¿Desea retirar el pedido en la sucursal o recibir el pedido por envio?\nEl costo de envio es de $500\n1.Retiro en sucursal\n2.Envio");
+	scanf("%d", &shipment);
 }while(shipment<1 || shipment>2);
 switch(shipment){
 	case 1:
@@ -81,9 +81,12 @@ switch(shipment){
 		break;
 	case 2:
 		strcpy(client[counterTwo].shipmentOption,shipmentYes);
+		client[counterTwo].price+=500;
 		break;
 	default:
 		break;
+
+counterTwo++;
 }
 
 
