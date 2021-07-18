@@ -12,10 +12,10 @@ char shipmentNo[5]="no";
 typedef struct Clients{
 
 	int dni;
-	char fullName[30];
-	char localion[30];
-	char shipmentOption[5];
-	int price;
+	char* fullName;
+	char* localion;
+	char* shipmentOption;
+	float price;
 	
 
 
@@ -78,10 +78,14 @@ do{
 switch(shipment){
 	case 1:
 		strcpy(client[counterTwo].shipmentOption,shipmentNo);
+		menu();
 		break;
 	case 2:
 		strcpy(client[counterTwo].shipmentOption,shipmentYes);
 		client[counterTwo].price+=500;
+		printf("\ningrese su direccion: ");
+		fflush(stdin);
+		gets(client[counterTwo].location);
 		break;
 	default:
 		break;
@@ -104,6 +108,9 @@ void buyMenu(){
 		scanf("%d",&quantity);
 	if(quantity>prod[0].stock){
 		printf("la cantidad seleccionada excede la cantidad disponible\n");
+
+		system("pause");
+		menu();
 	}
 	}while(quantity>=prod[0].stock);
 	prod[0].stock-=quantity;
@@ -115,8 +122,10 @@ void buyMenu(){
 			scanf("%d",&quantity);
 		if(quantity>prod[1].stock){
 			printf("la cantidad seleccionada excede la cantidad disponible\n");
+			system("pause");
+			menu();
 	}
-	}while(quantity<=prod[1].stock);
+	}while(quantity>=prod[1].stock);
 	prod[1].stock-=quantity;
 	}
 	if(productBuy==3){
@@ -125,9 +134,12 @@ void buyMenu(){
 	scanf("%d",&quantity);
 	if(quantity>prod[2].stock){
 		printf("la cantidad seleccionada excede la cantidad disponible\n");
+		system("pause");
+		menu();
 	}
-	}while(quantity<=prod[2].stock);
+	}while(quantity>=prod[2].stock);
 	prod[2].stock-=quantity;
+	client[counterTwo].price=quantity*prod[1].price;
 	}
 	if(productBuy==4){
 	do{
@@ -135,9 +147,12 @@ void buyMenu(){
 	scanf("%d",&quantity);
 	if(quantity>prod[3].stock){
 		printf("la cantidad seleccionada excede la cantidad disponible\n");
+		system("pause");
+		menu();
 	}
-	}while(quantity<=prod[3].stock);
+	}while(quantity>=prod[3].stock);
 	prod[3].stock-=quantity;
+	client[counterTwo].price=quantity*prod[3].price;
 	}
 	if(productBuy==5){
 	do{
@@ -145,15 +160,26 @@ void buyMenu(){
 	scanf("%d",&quantity);
 	if(quantity>prod[4].stock){
 		printf("la cantidad seleccionada excede la cantidad disponible\n");
+		system("pause");
+		menu();
 	}
-	}while(quantity<=prod[4].stock);
+	}while(quantity>=prod[4].stock);
 	prod[4].stock-=quantity;
+	client[counterTwo].price=quantity*prod[4].price;
 	}
 
 	printf("¿Desea llevar otro producto?\n1.SI 0.NO");
 	scanf("%d" , &buyOption);
 
    }
+}
+
+void buyResume(){
+
+	printf("------Resumen de la compra anterior--------------\n");
+	printf("nombre del cliente: %s \n",client[counterTwo-1].fullName );
+	printf("envio: %s \n", client[counterTwo-1].shipmentOption);
+	printf("precio total: %.2f ", client[counterTwo-1].price );
 }
 
 
@@ -196,7 +222,12 @@ void menu(){
             menu();
 
             break;
-
+		case 4:
+			system("cls");
+			buyResume();
+			system("pause");
+			system("cls");
+		break;
 	
 
 		case 0:
