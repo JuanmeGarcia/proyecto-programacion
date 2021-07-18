@@ -43,8 +43,8 @@ printf("---------------LISTA DE PRODUCTOS-----------------");
 
 for(counterOne=0;counterOne<5;counterOne++)
 
-printf("\ncodigo de producto %d :\n %s \nPrecio: $ %d \n Cantidad en stock: %d \n", prod[counterOne].code, prod[counterOne].product, prod[counterOne].price, prod[counterOne].stock );
-printf("------------------------------------------------------------------");
+printf("\ncodigo de producto %d: \n %s \nPrecio: $ %d \n Cantidad en stock: %d \n", prod[counterOne].code, prod[counterOne].product, prod[counterOne].price, prod[counterOne].stock );
+printf("------------------------------------------------------------------\n");
 }
 
 void particularProduct(){
@@ -55,7 +55,7 @@ scanf("%d",&productCode);
 }while (productCode<0 || productCode>5);
 for(counterOne=0;counterOne<5;counterOne++){
 
-    if(productCode==prod[counterOne+1].code){
+    if(productCode==prod[counterOne].code){
         printf("\ncodigo de producto %d :\n %s \nPrecio: $ %d \n Cantidad en stock: %d \n", prod[counterOne].code, prod[counterOne].product, prod[counterOne].price, prod[counterOne].stock );
 
     
@@ -101,16 +101,18 @@ void buyMenu(){
 	if(productBuy==1){
 	do{
 		printf("Ingrese la cantidad que desea llevar: \n");
+		scanf("%d",&quantity);
 	if(quantity>prod[0].stock){
 		printf("la cantidad seleccionada excede la cantidad disponible\n");
 	}
-	}while(quantity<=prod[0].stock);
+	}while(quantity>=prod[0].stock);
 	prod[0].stock-=quantity;
 	client[counterTwo].price=quantity*prod[0].price;
 	}
 	if(productBuy==2){
 		do{
 			printf("Ingrese la cantidad que desea llevar: \n");
+			scanf("%d",&quantity);
 		if(quantity>prod[1].stock){
 			printf("la cantidad seleccionada excede la cantidad disponible\n");
 	}
@@ -120,6 +122,7 @@ void buyMenu(){
 	if(productBuy==3){
 	do{
 	printf("Ingrese la cantidad que desea llevar: \n");
+	scanf("%d",&quantity);
 	if(quantity>prod[2].stock){
 		printf("la cantidad seleccionada excede la cantidad disponible\n");
 	}
@@ -129,6 +132,7 @@ void buyMenu(){
 	if(productBuy==4){
 	do{
 	printf("Ingrese la cantidad que desea llevar: \n");
+	scanf("%d",&quantity);
 	if(quantity>prod[3].stock){
 		printf("la cantidad seleccionada excede la cantidad disponible\n");
 	}
@@ -138,6 +142,7 @@ void buyMenu(){
 	if(productBuy==5){
 	do{
 	printf("Ingrese la cantidad que desea llevar: \n");
+	scanf("%d",&quantity);
 	if(quantity>prod[4].stock){
 		printf("la cantidad seleccionada excede la cantidad disponible\n");
 	}
@@ -146,7 +151,7 @@ void buyMenu(){
 	}
 
 	printf("¿Desea llevar otro producto?\n1.SI 0.NO");
-	scanf("%d" , &menuOption);
+	scanf("%d" , &buyOption);
 
    }
 }
