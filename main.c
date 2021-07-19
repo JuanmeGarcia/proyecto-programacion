@@ -5,11 +5,12 @@
 
 int option, counterData, counterClients, buyOption=1;
 int counterOne, productCode, counterTwo, quantity, counterFour, counterFive;
-int document, shipment, productBuy, menuOption;
+int document, shipment, productBuy, menuOption, adminOption;
 char shipmentYes[5]="si";
 char shipmentNo[5]="no";
-
-
+char user[10], userCorrect[10]="admin";
+char password[10], passwordCorrect[10]="admin";
+int userComparison, passwordComparison, shipmentComparison;
 typedef struct Clients{
 
 	int dni;
@@ -207,8 +208,48 @@ void shipmentAsk(){
 }
 
 
+void adminMenu(){
+	system("cls");
+	printf("-------------Menu administrativo--------------\n");
+	printf("Seleccione la opcion a la que desea ingresar\n\n1.Ver historial de ventas\n0.Volver al menu principal");
+	scanf("%d",&adminOption);
+	switch (adminOption)
+	{
+	case 1:
+	if(counterClients==0){
+		printf("No se han realizado ventas\n");
+		system("pause");
+		system("cls");
+	}
+	else{
+		system("cls");
+		sellHistory();
+	}
+		system("cls");
+		adminMenu();
+		break;
+	
+	case 0:
+		system("cls");
+		menu();
+		break;
+	}
+}
 
 
+void sellHistory(){
+	for(counterFive=0;counterFive<counterTwo;counterFive++){
+		printf("nombre del cliente: %s \n",client[counterFive].fullName );
+		printf("envio: %s \n", client[counterFive].shipmentOption);
+		shipmentComparison=strcmp(client[counterFive].shipmentOption,shipmentYes);
+		if(shipmentComparison==0){
+			printf("localidad: %s\n", client[counterFive].location);	
+		}
+		printf("precio total: %.2f \n", client[counterFive].price);
+		printf("---------------------------------\n");
+	}
+	system("pause");
+}
 
 void buyResume(){
 	
@@ -231,9 +272,9 @@ void buyResume(){
 void menu(){
 	do{
 	
-	printf("Seleccione una de las siguientes opciones\n1.realizar compra\n2.Ver lista de productos\n3.ver datos de un producto en particular\n4.ver resumen de la compra\n0.salir\n");
+	printf("Seleccione una de las siguientes opciones\n1.realizar compra\n2.Ver lista de productos\n3.ver datos de un producto en particular\n4.ver resumen de la compra\n5.Menu administrativo\n0.salir\n");
 	scanf("%d",&option);
-}while(option<0 || option>4);
+}while(option<0 || option>5);
 	switch(option){
 		
 		case 1:
@@ -280,6 +321,27 @@ void menu(){
 			system("cls");
 			menu();
 		break;
+		case 5:
+			do{ 
+        	printf("\nIngrese el nombre de usuario: ");
+        	fflush(stdin);
+        	gets(user);
+        	printf("Ingrese la contraseña: ");
+        	fflush(stdin);
+        	gets(password);
+        	userComparison = strcmp(user, userCorrect);
+       		passwordComparison = strcmp(password, passwordCorrect);
+			if(userComparison!=0 || passwordComparison!=0){
+				system("cls");
+				printf("Usurario o contraseña incorrectos");
+				system("pause");
+				system("cls");
+			}
+			}while(userComparison!=0 || passwordComparison!=0);
+			if(userComparison==0 && passwordComparison==0){
+				adminMenu();
+			}
+		break;
 	
 
 		case 0:
@@ -323,9 +385,9 @@ prod[4].stock=8;
 
 	do{
 	
-	printf("Seleccione una de las siguientes opciones\n1.realizar compra\n2.Ver lista de productos\n3.ver datos de un producto en particular\n4.ver resumen de la compra\n0.salir\n");
+printf("Seleccione una de las siguientes opciones\n1.realizar compra\n2.Ver lista de productos\n3.ver datos de un producto en particular\n4.ver resumen de la compra\n5.Menu administrativo\n0.salir\n");
 	scanf("%d",&option);
-}while(option<0 || option>4);
+}while(option<0 || option>5);
 	switch(option){
 		
 		case 1:
@@ -370,6 +432,27 @@ prod[4].stock=8;
 			system("pause");
 			system("cls");
 			menu();
+		break;
+		case 5:
+			do{ 
+        	printf("\nIngrese el nombre de usuario: ");
+        	fflush(stdin);
+        	gets(user);
+        	printf("Ingrese la contraseña: ");
+        	fflush(stdin);
+        	gets(password);
+        	userComparison = strcmp(user, userCorrect);
+       		passwordComparison = strcmp(password, passwordCorrect);
+			if(userComparison!=0 || passwordComparison!=0){
+				system("cls");
+				printf("Usurario o contraseña incorrectos");
+				system("pause");
+				system("cls");
+			}
+			}while(userComparison!=0 || passwordComparison!=0);
+			if(userComparison==0 && passwordComparison==0){
+				adminMenu();
+			}
 		break;
 		case 0:
 			system("cls");
