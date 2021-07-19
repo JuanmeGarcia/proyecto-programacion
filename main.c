@@ -16,9 +16,6 @@ typedef struct Clients{
 	char localion[30];
 	char shipmentOption[5];
 	int price;
-	
-
-
 
 }Clients;
 
@@ -35,9 +32,8 @@ typedef struct Abailability{
 producto prod[5];
 
 
-
-
 void productList(){
+
 
 printf("---------------LISTA DE PRODUCTOS-----------------");
 
