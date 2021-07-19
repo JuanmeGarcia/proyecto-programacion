@@ -3,7 +3,7 @@
 #include <string.h>
 #include <conio.h>
 
-int option, counterData, counterClients, buyOption=1;
+int option, counterData, counterClients, buyOption=1, shipmentAmount;
 int counterOne, productCode, counterTwo, quantity, counterFour, counterFive;
 int document, shipment, productBuy, menuOption, adminOption;
 char shipmentYes[5]="si";
@@ -11,6 +11,19 @@ char shipmentNo[5]="no";
 char user[10], userCorrect[10]="admin";
 char password[10], passwordCorrect[10]="admin";
 int userComparison, passwordComparison, shipmentComparison;
+int selledAmount[5];
+float totalPrice;
+
+typedef enum ProductNumber{
+	aire_acondicionado=0, 
+	pc_gama_media=1,
+	pc_gama_alta=2,
+	placa_de_video=3,
+	lavarropas=4,
+};
+
+
+
 typedef struct Clients{
 
 	int dni;
@@ -89,80 +102,87 @@ void sell(){
 		system("cls");
 		switch(productBuy){
 		case 1:
-			if(quantity>prod[0].stock){
+			if(quantity>prod[aire_acondicionado].stock){
 				printf("la cantidad seleccionada excede la cantidad disponible\nVolviendo al menu\n");
 				system("pause");
 				system("cls");
 				menu();
 			}
 			else{
-				client[counterTwo].price+=prod[0].price*quantity;
-				prod[0].stock-=quantity;
-				strcpy(selled[counterFour].bought,prod[0].product);
+				client[counterTwo].price+=prod[aire_acondicionado].price*quantity;
+				prod[aire_acondicionado].stock-=quantity;
+				strcpy(selled[counterFour].bought,prod[aire_acondicionado].product);
 				selled[counterFour].boughtQuantity=quantity;
+				selledAmount[aire_acondicionado]+=quantity;
 			}
 					
 		break;
 		case 2:
-			if(quantity>prod[1].stock){
+			if(quantity>prod[pc_gama_media].stock){
 				printf("la cantidad seleccionada excede la cantidad disponible\nVolviendo al menu\n");
 				system("pause");
 				system("cls");
 				menu();
 			}
 			else{
-				client[counterTwo].price+=prod[1].price*quantity;
-				prod[1].stock-=quantity;
-				strcpy(selled[counterFour].bought,prod[1].product);
+				client[counterTwo].price+=prod[pc_gama_media].price*quantity;
+				prod[pc_gama_media].stock-=quantity;
+				strcpy(selled[counterFour].bought,prod[pc_gama_media].product);
 				selled[counterFour].boughtQuantity=quantity;
+				selledAmount[pc_gama_media]+=quantity;
 			}
 					
 		break;
 		case 3:
-			if(quantity>prod[2].stock){
+			if(quantity>prod[pc_gama_alta].stock){
 				printf("la cantidad seleccionada excede la cantidad disponible\nVolviendo al menu\n");
 				system("pause");
 				system("cls");
 				menu();
 			}
 			else{
-				client[counterTwo].price+=prod[2].price*quantity;
-				prod[2].stock-=quantity;
-				strcpy(selled[counterFour].bought,prod[2].product);
+				client[counterTwo].price+=prod[pc_gama_alta].price*quantity;
+				prod[pc_gama_alta].stock-=quantity;
+				strcpy(selled[counterFour].bought,prod[pc_gama_alta].product);
 				selled[counterFour].boughtQuantity=quantity;
+				selledAmount[pc_gama_alta]+=quantity;
 
 			}
 					
 		break;
 		case 4:
-			if(quantity>prod[3].stock){
+			if(quantity>prod[placa_de_video].stock){
 				printf("la cantidad seleccionada excede la cantidad disponible\nVolviendo al menu\n");
 				system("pause");
 				system("cls");
 				menu();
 			}
 			else{
-				client[counterTwo].price+=prod[3].price*quantity;
-				prod[3].stock-=quantity;
-				strcpy(selled[counterFour].bought,prod[3].product);
+				client[counterTwo].price+=prod[placa_de_video].price*quantity;
+				prod[placa_de_video].stock-=quantity;
+				strcpy(selled[counterFour].bought,prod[placa_de_video].product);
 				selled[counterFour].boughtQuantity=quantity;
+				selledAmount[placa_de_video]+=quantity;
 			}
 					
 		break;
 		case 5:
-			if(quantity>prod[4].stock){
+			if(quantity>prod[lavarropas].stock){
 				printf("la cantidad seleccionada excede la cantidad disponible\nVolviendo al menu\n");
 				system("pause");
 				system("cls");
 				menu();
 			}
 			else{
-				client[counterTwo].price+=prod[4].price*quantity;
-				prod[4].stock-=quantity;
-				strcpy(selled[counterFour].bought,prod[4].product);
+				client[counterTwo].price+=prod[lavarropas].price*quantity;
+				prod[lavarropas].stock-=quantity;
+				strcpy(selled[counterFour].bought,prod[lavarropas].product);
 				selled[counterFour].boughtQuantity=quantity;
+				selledAmount[lavarropas]+=quantity;
 			}
 					
+		break;
+		default:
 		break;
 		
 	}
@@ -187,7 +207,7 @@ void shipmentAsk(){
 }while(shipment<1 || shipment>2);
 	if(shipment==1){
 		strcpy(client[counterTwo].shipmentOption,shipmentYes);
-		
+		shipmentAmount++;
 		system("cls");
 		printf("Ingrese la localidad a la que se le ralizara el envio: \n");
 		fflush(stdin);
@@ -201,6 +221,7 @@ void shipmentAsk(){
 		printf("Debera retirar el pedido en la sucursal\n");
 		
 	}
+	totalPrice+=client[counterTwo].price;
 	counterTwo++;
 	system("pause");
 	system("cls");
@@ -211,7 +232,7 @@ void shipmentAsk(){
 void adminMenu(){
 	system("cls");
 	printf("-------------Menu administrativo--------------\n");
-	printf("Seleccione la opcion a la que desea ingresar\n\n1.Ver historial de ventas\n0.Volver al menu principal");
+	printf("Seleccione la opcion a la que desea ingresar\n\n1.Ver historial de ventas\n2.Resumen\n0.Volver al menu principal");
 	scanf("%d",&adminOption);
 	switch (adminOption)
 	{
@@ -228,15 +249,34 @@ void adminMenu(){
 		system("cls");
 		adminMenu();
 		break;
-	
+	case 2:
+		system("cls");
+		totalResume();
+		system("pause");
+		system("cls");
+		adminMenu();
+	break;
 	case 0:
 		system("cls");
 		menu();
-		break;
+	break;
+	default:
+	break;
 	}
 }
 
+void totalResume(){
+	printf("Cantidad de ventas realizadas: %d\n", counterTwo);
+	printf("Total recaudado: $%.2f\n", totalPrice);
+	printf("Cantidad de envios a realizar: %d\n", shipmentAmount);
+	printf("cantidad de unidades vendidas de cada producto:\n");
+	for(counterFive=0;counterFive<5;counterFive++){
+	printf("--%s: %d\n", prod[counterFive].product, selledAmount[counterFive]);
+	}
 
+
+
+}
 void sellHistory(){
 	for(counterFive=0;counterFive<counterTwo;counterFive++){
 		printf("nombre del cliente: %s \n",client[counterFive].fullName );
@@ -270,6 +310,7 @@ void buyResume(){
 
 
 void menu(){
+	int option;
 	do{
 	
 	printf("Seleccione una de las siguientes opciones\n1.realizar compra\n2.Ver lista de productos\n3.ver datos de un producto en particular\n4.ver resumen de la compra\n5.Menu administrativo\n0.salir\n");
@@ -348,7 +389,9 @@ void menu(){
 			system("cls");
 			printf("--------------------------------");
 			printf("\nUsted ha salido del sistema.\nQue tenga un buen dia.");
-			break;
+		break;
+		default:
+		break;
 	}
 	
 	
@@ -381,8 +424,9 @@ prod[4].price=7500;
 prod[4].stock=8;
 
 
+menu();
 
-
+/*
 	do{
 	
 printf("Seleccione una de las siguientes opciones\n1.realizar compra\n2.Ver lista de productos\n3.ver datos de un producto en particular\n4.ver resumen de la compra\n5.Menu administrativo\n0.salir\n");
@@ -462,7 +506,7 @@ printf("Seleccione una de las siguientes opciones\n1.realizar compra\n2.Ver list
 	}
 	
 
-
+*/
 
 
     return 0;
