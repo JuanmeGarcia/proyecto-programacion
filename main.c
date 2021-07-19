@@ -4,7 +4,7 @@
 #include <conio.h>
 
 int option, counterData, counterClients, buyOption=1;
-int counterOne, productCode, counterTwo, quantity;
+int counterOne, productCode, counterTwo, quantity, counterFour, counterFive;
 int document, shipment, productBuy, menuOption;
 char shipmentYes[5]="si";
 char shipmentNo[5]="no";
@@ -35,7 +35,13 @@ typedef struct Abailability{
 
 producto prod[5];
 
+typedef struct Bought
+{
+	char bought[30];
+	int boughtQuantity;
+}sellproduct;
 
+sellproduct selled[10000];
 
 
 void productList(){
@@ -67,6 +73,7 @@ for(counterOne=0;counterOne<5;counterOne++){
 }
 
 void sell(){
+	counterFour=0;
 	system("cls");
 	printf("Ingrese su nombre y apellido: \n");
 	fflush(stdin);
@@ -90,6 +97,8 @@ void sell(){
 			else{
 				client[counterTwo].price+=prod[0].price*quantity;
 				prod[0].stock-=quantity;
+				strcpy(selled[counterFour].bought,prod[0].product);
+				selled[counterFour].boughtQuantity=quantity;
 			}
 					
 		break;
@@ -103,6 +112,8 @@ void sell(){
 			else{
 				client[counterTwo].price+=prod[1].price*quantity;
 				prod[1].stock-=quantity;
+				strcpy(selled[counterFour].bought,prod[1].product);
+				selled[counterFour].boughtQuantity=quantity;
 			}
 					
 		break;
@@ -116,6 +127,8 @@ void sell(){
 			else{
 				client[counterTwo].price+=prod[2].price*quantity;
 				prod[2].stock-=quantity;
+				strcpy(selled[counterFour].bought,prod[2].product);
+				selled[counterFour].boughtQuantity=quantity;
 
 			}
 					
@@ -130,6 +143,8 @@ void sell(){
 			else{
 				client[counterTwo].price+=prod[3].price*quantity;
 				prod[3].stock-=quantity;
+				strcpy(selled[counterFour].bought,prod[3].product);
+				selled[counterFour].boughtQuantity=quantity;
 			}
 					
 		break;
@@ -143,12 +158,15 @@ void sell(){
 			else{
 				client[counterTwo].price+=prod[4].price*quantity;
 				prod[4].stock-=quantity;
+				strcpy(selled[counterFour].bought,prod[4].product);
+				selled[counterFour].boughtQuantity=quantity;
 			}
 					
 		break;
 		
 	}
 	system("cls");
+	counterFour++;
 		printf("desea llevar otro producto?\n1.SI 0.NO\n");
 		scanf("%d",&buyOption);
 		system("cls");
@@ -200,11 +218,13 @@ void buyResume(){
 	if(shipment==1){
 	printf("localidad: %s\n", client[counterTwo-1].location);	
 	}
+	for(counterFive=0;counterFive<counterFour;counterFive++){
+		printf("%s x %d\n",selled[counterFive].bought, selled[counterFive].boughtQuantity);
+	}
 	printf("precio total: %.2f ", client[counterTwo-1].price );
 	
 
 }
-
 
 
 
