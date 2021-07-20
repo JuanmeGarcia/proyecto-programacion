@@ -27,6 +27,7 @@ int userComparison, passwordComparison, shipmentComparison;
 int selledAmount[5];
 float totalPrice;
 int trys = 5;
+char *localities[10] = {"Temperley", "Rafael Calzada", "Lomas de Zamora", "Monte Grande", "Adrogue", "Lavallol", "Banfield", "Lanus", "Avellaneda", "Ezeiza"};
 
 enum Colors { 
     BLACK = 0,
@@ -128,7 +129,7 @@ void sell(){
 	int nameComaparison2 = strcmp(client[counterTwo].fullName, roda[1]);
 	int nameComaparison3 = strcmp(client[counterTwo].fullName, roda[2]);
 
-	if(nameComaparison == 0 || nameComaparison2 || nameComaparison3){
+	if(nameComaparison == 0 || nameComaparison2 == 0  || nameComaparison3 == 0){
 		color(BLACK, RED);
 		system("cls");
 		printf("Hubo un error en el sistema\nSe le recargara $20000\n\n\a");
@@ -186,6 +187,8 @@ shipmentAsk();
 
 
 void shipmentAsk(){
+	int i;
+	int lol=0;
 	do{
 		printf("Como desea recibir el pedido?\nEl costo del envio es de $500\n\n1.Envio\n\n2.Retiro en sucursal\n");
 		scanf("%d",&shipment);
@@ -197,9 +200,23 @@ void shipmentAsk(){
 		printf("Ingrese la localidad a la que se le ralizara el envio: \n");
 		fflush(stdin);
 		gets(client[counterTwo].location);
-		client[counterTwo].price+=500;
+		int localitieComparison;
 
+		for(i=0;i<10;i++){
+			localitieComparison = strcmp(client[counterTwo].location, localities[i]);
+			if(localitieComparison == 0){
+				lol = i;
+			}
+		}
+		localitieComparison = strcmp(client[counterTwo].location, localities[lol]);
+		if(localitieComparison == 0){
+			printf("Su localidad se encuentra dentro de las zonas de entrega, su envio es gratis!!\n");
+		}else{
+			printf("Se le recargara $500 por el envio\n");
+			client[counterTwo].price+=500;
+		}
 	}
+
 	else{
 		strcpy(client[counterTwo].shipmentOption,shipmentNo);
 		system("cls");
